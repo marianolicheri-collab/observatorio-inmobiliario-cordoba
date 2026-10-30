@@ -1,3 +1,9 @@
+# Actualización de criterio (30/10/2026)
+
+**IMPORTANTE:** la depuración habitual ahora es documental automática sobre los datos efectivamente publicados y se rige por [SYSTEM_PROMPT_OBSERVATORIO_V3.md](../SYSTEM_PROMPT_OBSERVATORIO_V3.md). La selección por la búsqueda original no determina el barrio. Las reglas `observatorio.datos_declarados_v2` habilitan precios declarados aptos sin abrir cada ficha. La vista `observatorio.inventario_analisis_v2` reúne todos los avisos por ID único y conserva pendientes.
+
+**El siguiente script es opcional para EXCEPCIONES**, no el proceso obligatorio de todos los avisos. La vista `observatorio.cola_depuracion_v1` es una cola heredada del enfoque anterior y sus prioridades no deben interpretarse como que cada anuncio requiere ficha individual.
+
 # Depuración de fichas La Voz por lotes
 
 Proceso independiente del dashboard. **No se ejecuta automáticamente al abrirlo**.
