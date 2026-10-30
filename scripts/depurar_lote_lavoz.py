@@ -32,6 +32,12 @@ def get_page(url, provider, timeout):
     txt=soup.get_text("\n",strip=True)
     if "Descripción" not in txt: raise RuntimeError("HTML sin descripción verificable")
     # HTML heterogéneo: se procesa como texto; si faltan secciones, queda pendiente.
+    # Preservar encabezados de la ficha para extraer Características/Descripción.
+    for node in soup.find_all(["h2","h3","h4"]):
+        label=node.get_text(" ",strip=True)
+        if re.search(r"^(Características|Descripción|Ubicación|Contactar al Anunciante|Datos del Anunciante)",label,re.I):
+            node.insert_before("\n## "+label+"\n")
+    txt=soup.get_text("\n",strip=True)
     return "# "+title.get_text(" ",strip=True)+"\n"+txt
 
 def parse_ficha(markdown,row):
