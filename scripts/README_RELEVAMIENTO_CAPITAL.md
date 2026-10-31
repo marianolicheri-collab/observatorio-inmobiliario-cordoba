@@ -14,3 +14,13 @@ Fuente: API pública de búsqueda por venta de inmuebles de Córdoba Capital. La
 Advertencias específicas: La Voz devuelve un aviso con título de alquiler en los resultados de venta, otro sin precio USD válido y un posible anuncio de varias casas. No habilitarlos automáticamente. La descripción del listado aporta información sustancial y permite evitar fichas.
 
 Para próximas tandas, archivar la respuesta original comprimida en `observatorio.recepciones.original_comprimido` cuando el acceso lo permita. La presente carga inicial guardó título, descripción, origen, URL y página en `avisos`, **no el JSON bruto de ambas páginas en recepciones**.
+
+
+## Siguiente lote reanudable (31/10/2026)
+
+- Estado consultado en Supabase: página 1 = 24 avisos; página 2 = 24; **primera página no relevada = 3**. Las 48 fichas se guardaron con la descripción íntegra del resultado, sin abrir URLs individuales.
+- Criterio comercial actualizado: **precio fuente = api.price** (ej. USD 103.000); conservar descripción aunque mencione otras cifras. **Barrio fuente = api.address.neighborhood**, sin obligar a abrir fichas cuando la descripción usa otro barrio. **Área = api.real_estate.total_area como número no clasificado**, nunca activar indicador USD/m² sin identificar base o si es atípico.
+- El recolector local `recolectar_capital_lavoz_lotes.py` agrega `--next` para retomar la primera página ausente, `--pages` con máximo 10 y suspensión automática ante HTTP 401/403/429. Para páginas nuevas conserva JSON gzip en `recepciones`, posición de ID en `apariciones`, y no sobrescribe `avisos` ni `revisiones` existentes. También capta baños, apto crédito, apto escritura, coordenadas, fotos, anunciante comercial y destacado como campos declarados.
+- **Prueba completada:** el parser local se compiló y normalizó correctamente una muestra sintética; no se ejecutó el ciclo completo desde su entorno contra el portal ni contra Supabase, por falta de autorización de recolección automatizada comprobada. No confundir preparación con recolección operativa.
+- **Límite legal/operativo:** no inferir permiso de automatización de una respuesta HTTP 200. Verificar condiciones aplicables de La Voz antes de ejecutar lotes repetitivos. No eludir límites, bloqueo ni autenticación.
+- `public.observatorio_dashboard` no se modifica. No sumar avisos replicados de tandas diferentes en un indicador.
